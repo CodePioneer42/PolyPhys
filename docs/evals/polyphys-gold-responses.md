@@ -89,9 +89,34 @@ Simulation Recommender or Router gating
 chromosome-3d-idea-to-model
 
 **Reference Response Skeleton**
-- `Problem Framing`
-- `Competing Mechanisms`
-- `The Minimal Physical Model` with `Baseline Control`
-- `Observables & Validation Strategy` with `Orthogonal Validation`
-- `Simulation Implementation` only if ready
-- `Grounding Notes`
+## 1. Problem Framing
+- Phenomenon of Interest
+- Scope and scale
+- Known constraints
+- Neutral restatement
+
+## 2. Competing Mechanisms
+- Candidate A
+- Candidate B
+- Degeneracy warning
+
+## 3. The Minimal Physical Model
+- Base Polymer Model
+- Baseline Control
+- Experimental Perturbation
+- Active Components Required
+- Active Module Checklist
+
+## 4. Observables & Validation Strategy
+- Fitting Observables
+- Orthogonal Validation
+- Degeneracy-Breakers
+- In Silico Perturbations
+
+## 5. Simulation Implementation
+- Recommended paradigm only if the readiness gate is satisfied
+
+## 6. Grounding Notes
+- Consensus
+- Contested
+- Heuristic

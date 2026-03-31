@@ -14,6 +14,8 @@ test("polyphys gold responses exist and cover key evaluation scenarios", async (
     "## Scenario 2",
     "## Scenario 3",
     "## Scenario 4",
+    "## Scenario 5",
+    "## Scenario 6",
     "Router",
     "Mechanism Decomposer",
     "Minimal Model Builder",
@@ -22,7 +24,11 @@ test("polyphys gold responses exist and cover key evaluation scenarios", async (
     "Degeneracy warning",
     "Baseline Control",
     "Orthogonal Validation",
-    "Pause recommendation"
+    "Pause recommendation",
+    "6. Grounding Notes",
+    "Consensus",
+    "Contested",
+    "Heuristic"
   ];
 
   for (const phrase of requiredPhrases) {
