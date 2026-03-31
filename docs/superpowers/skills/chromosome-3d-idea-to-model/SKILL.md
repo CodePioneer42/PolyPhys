@@ -25,11 +25,23 @@ Do not use this skill for generic genomics Q&A, broad literature review only, or
 
 ## Workflow
 1. Reframe the idea in physically neutral language. Lead with phenotype and scope, not a mechanism conclusion.
-2. Identify at least two candidate underlying mechanisms and emit a `Degeneracy warning` when multiple explanations remain plausible.
-3. Build the smallest defensible model pair rather than an overgrown omnibus model.
-4. Force a validation split between fitting and independent testing.
-5. Pause simulation recommendation if the mechanism space is still unresolved.
-6. Add lightweight Grounding Notes marked as Consensus, Contested, or Heuristic.
+2. Ask clarifying questions before locking the model whenever key biological or physical assumptions are missing.
+3. Identify at least two candidate underlying mechanisms and emit a `Degeneracy warning` when multiple explanations remain plausible.
+4. Build the smallest defensible model pair rather than an overgrown omnibus model.
+5. Force a validation split between fitting and independent testing.
+6. Pause simulation recommendation if the mechanism space is still unresolved.
+7. Add lightweight Grounding Notes marked as Consensus, Contested, or Heuristic.
+
+## Proactive Questions
+When the user under-specifies the system, ask targeted questions that expose hidden assumptions rather than generic “tell me more” follow-ups.
+
+Examples:
+- Is the proposed interaction `ATP-driven` and dissipative, or `passive` and compatible with thermal equilibrium?
+- Does the polymer `Persistence length` have a biological reference value that should anchor stiffness?
+- Is the interaction sequence-specific, state-specific, or effectively homogeneous at the current coarse-graining level?
+- Is the observed phenotype stable, transient, cell-cycle dependent, or perturbation dependent?
+
+Use proactive questions to reduce ambiguity before the workflow advances to model construction.
 
 ## Output Protocol
 Every response must use the following modeling draft.
@@ -39,6 +51,7 @@ Every response must use the following modeling draft.
 - Scope and scale
 - Known constraints
 - Neutral restatement of the idea
+- Missing assumptions to resolve through proactive questions
 
 ### 2. Competing Mechanisms
 - Candidate mechanism A
@@ -95,6 +108,7 @@ Grounding Notes are short. They label epistemic status; they do not become a ful
 | Situation | Required response |
 | --- | --- |
 | User says `phase separation` without proof | Reframe as condensation, clustering, or domain formation and ask for thermodynamic evidence before accepting the mechanism label |
+| Core physical assumption is missing | Ask clarifying questions using `Proactive Questions` before locking the model |
 | One phenotype admits multiple mechanisms | Add `Degeneracy warning` and list `Competing Mechanisms` before recommending software |
 | Model proposal lacks a control | Add `Baseline Control` and mark the draft incomplete until it exists |
 | Same data type is used for fit and validation | Replace validation with `Orthogonal Validation` from a different observable class |
@@ -110,6 +124,7 @@ Use this exact structure in the final answer.
 - Scope and scale:
 - Known constraints:
 - Neutral restatement:
+- Missing assumptions to clarify:
 
 ## Competing Mechanisms
 - Candidate A:

@@ -26,7 +26,8 @@ Do not use this skill when the user explicitly names one lower-level skill and t
 ## Workflow
 1. Start at the highest-level need: if the user wants a full structured draft, route to `chromosome-3d-idea-to-model`.
 2. If the request is dominated by ambiguous phenotype language or unclear mechanism claims, handoff to `mechanism-decomposer`.
-3. Once competing hypotheses are explicit, handoff to `minimal-model-builder`.
+3. If the mechanism description is self-contradictory, internally inconsistent, or still degenerate, route back to `mechanism-decomposer`.
+4. Once competing hypotheses are explicit and internally coherent, handoff to `minimal-model-builder`.
 4. Once a minimal model and control exist, handoff to `observable-translator`.
 5. Only after model and validation readiness are clear, handoff to `simulation-recommender`.
 6. If unresolved degeneracy or missing prerequisites appear at any stage, pause escalation and stop at the current stage rather than routing forward.
@@ -36,7 +37,8 @@ Do not use this skill when the user explicitly names one lower-level skill and t
 | --- | --- | --- |
 | User wants one end-to-end modeling draft now | `chromosome-3d-idea-to-model` | Use the top-level draft when the whole chain must be summarized in one response |
 | Phenotype is clear but mechanism is ambiguous | `mechanism-decomposer` | Stop here until competing hypotheses and missing evidence are explicit |
-| Candidate mechanisms are explicit but no minimal model exists | `minimal-model-builder` | Route only after mechanism competition is written down |
+| Mechanism claims are self-contradictory or unstable | route back to `mechanism-decomposer` | must not handoff to `minimal-model-builder` until the contradiction is resolved |
+| Candidate mechanisms are explicit but no minimal model exists | `minimal-model-builder` | route only after mechanism competition is written down and internally coherent |
 | Minimal model exists but validation is still vague | `observable-translator` | Route only after `Base Polymer Model`, `Baseline Control`, and perturbation are explicit |
 | Model and validation are stable enough for computational choice | `simulation-recommender` | Route only after readiness gates pass and major degeneracy no longer dominates |
 | Major degeneracy remains at any stage | pause | Do not handoff forward; ask for more evidence or maintain competing paths |
@@ -45,6 +47,7 @@ Use the word `handoff` explicitly when moving from one stage to the next so the 
 
 ## Common Mistakes
 - Sending a phenotype-heavy request directly to `minimal-model-builder` before `mechanism-decomposer`.
+- Letting a self-contradictory mechanism story pass forward instead of sending it back to `mechanism-decomposer`.
 - Routing into `simulation-recommender` before validation strategy exists.
 - Ignoring degeneracy and pushing the workflow forward instead of using a pause.
 - Repeating the full logic of a child skill inside the router instead of making a clean handoff.

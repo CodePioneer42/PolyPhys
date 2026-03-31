@@ -24,7 +24,8 @@ Do not use this skill to identify mechanisms from scratch, design validation obs
 3. Define the `Experimental Perturbation` that adds only the minimum extra ingredient needed to test the target mechanism.
 4. State `Active Components Required` explicitly rather than assuming them.
 5. Run an `Active Module Checklist` that asks whether nonequilibrium drivers, extrusion, turnover, feedback, or viscoelastic couplings are genuinely necessary.
-6. End with `Scope Limits` that say what this minimal model intentionally does not explain yet.
+6. Emit a standardized `Parameter Card` as a Markdown table or JSON block so downstream simulation setup has no conceptual blind spots.
+7. End with `Scope Limits` that say what this minimal model intentionally does not explain yet.
 
 ## Output Protocol
 Every response should use the following structure.
@@ -55,6 +56,16 @@ Every response should use the following structure.
 - Reader-writer or state-feedback logic required or not
 - Environmental or viscoelastic coupling required or not
 
+### Parameter Card
+- Present as a Markdown table or JSON block
+- `Monomer Types`
+- `Bonded Potentials`
+- `Non-Bonded Potentials`
+- `Temperature`
+- `Damping Coefficient`
+- `Time Step`
+- Add placeholder ranges or reference dimensions when exact values are not yet known
+
 ### Scope Limits
 - Which effects are intentionally excluded
 - Which biological claims the minimal model cannot support yet
@@ -68,10 +79,12 @@ Every response should use the following structure.
 | Multiple extra ingredients are being added at once | Reduce to one `Experimental Perturbation` over one control before adding more |
 | The current model is too realistic to interpret cleanly | Strip it back to the `Base Polymer Model` plus one perturbation |
 | A hidden control is implied but not written | Write it explicitly; a missing control means the draft is incomplete |
+| User will need help moving toward simulation | Add a `Parameter Card` in Markdown table or JSON form |
 
 ## Common Mistakes
 - Starting with a complicated mechanism-rich model instead of a `Base Polymer Model`.
 - Omitting the `Baseline Control` or describing it too vaguely to reproduce.
 - Adding several mechanism-bearing ingredients at once so the `Experimental Perturbation` is no longer interpretable.
 - Hiding a nonequilibrium assumption inside a generic model label instead of stating `Active Components Required`.
+- Failing to emit a `Parameter Card`, leaving monomer types, bonded terms, non-bonded terms, temperature, damping, or time step implicit.
 - Forgetting to say what the minimal model does not explain, causing scope creep from the start.

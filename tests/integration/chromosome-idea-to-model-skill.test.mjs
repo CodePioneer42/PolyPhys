@@ -69,3 +69,13 @@ test("chromosome idea-to-model skill encodes the phase-separation downgrade and 
   assert.match(skillDoc, /Pause simulation recommendation/i);
   assert.match(skillDoc, /two competing control models/i);
 });
+
+test("chromosome idea-to-model skill encodes proactive questioning for underspecified biology", async () => {
+  const skillDoc = await readFile(skillPath, "utf8");
+
+  assert.match(skillDoc, /Proactive Questions/i);
+  assert.match(skillDoc, /ATP-driven/i);
+  assert.match(skillDoc, /passive/i);
+  assert.match(skillDoc, /Persistence length/i);
+  assert.match(skillDoc, /ask clarifying questions/i);
+});
