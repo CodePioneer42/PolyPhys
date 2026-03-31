@@ -6,4 +6,6 @@ The current v1 design is captured in [docs/superpowers/specs/2026-03-30-polyphys
 
 The first implemented skill is [docs/superpowers/skills/chromosome-3d-idea-to-model/SKILL.md](docs/superpowers/skills/chromosome-3d-idea-to-model/SKILL.md), which turns chromosome folding ideas into a structured modeling draft with degeneracy handling, control design, and validation guardrails.
 
+The second implemented skill is [docs/superpowers/skills/mechanism-decomposer/SKILL.md](docs/superpowers/skills/mechanism-decomposer/SKILL.md), which isolates phenotype language, competing mechanisms, and explicit degeneracy warnings before model construction.
+
 Human verification steps are tracked in [docs/verification/human-verification-issue.md](docs/verification/human-verification-issue.md).
