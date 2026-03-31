@@ -8,4 +8,6 @@ The first implemented skill is [docs/superpowers/skills/chromosome-3d-idea-to-mo
 
 The second implemented skill is [docs/superpowers/skills/mechanism-decomposer/SKILL.md](docs/superpowers/skills/mechanism-decomposer/SKILL.md), which isolates phenotype language, competing mechanisms, and explicit degeneracy warnings before model construction.
 
+The third implemented skill is [docs/superpowers/skills/observable-translator/SKILL.md](docs/superpowers/skills/observable-translator/SKILL.md), which turns model hypotheses into fitting targets, orthogonal validation, dynamic diagnostics, and in silico perturbation logic.
+
 Human verification steps are tracked in [docs/verification/human-verification-issue.md](docs/verification/human-verification-issue.md).
