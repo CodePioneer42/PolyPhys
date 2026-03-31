@@ -17,3 +17,5 @@ The fourth implemented skill is [docs/superpowers/skills/minimal-model-builder/S
 The fifth implemented skill is [docs/superpowers/skills/simulation-recommender/SKILL.md](docs/superpowers/skills/simulation-recommender/SKILL.md), which gives conservative simulation-route guidance only when model and mechanism readiness gates have been satisfied.
 
 Human verification steps are tracked in [docs/verification/human-verification-issue.md](docs/verification/human-verification-issue.md).
+
+A reusable prompt suite for manual evaluation lives in [docs/evals/polyphys-human-evals.md](docs/evals/polyphys-human-evals.md).
