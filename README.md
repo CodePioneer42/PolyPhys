@@ -19,3 +19,5 @@ The fifth implemented skill is [docs/superpowers/skills/simulation-recommender/S
 Human verification steps are tracked in [docs/verification/human-verification-issue.md](docs/verification/human-verification-issue.md).
 
 A reusable prompt suite for manual evaluation lives in [docs/evals/polyphys-human-evals.md](docs/evals/polyphys-human-evals.md).
+
+Reference response skeletons for those scenarios live in [docs/evals/polyphys-gold-responses.md](docs/evals/polyphys-gold-responses.md).
