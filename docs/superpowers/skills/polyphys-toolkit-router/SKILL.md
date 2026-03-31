@@ -24,17 +24,20 @@ The suite currently routes across:
 Do not use this skill when the user explicitly names one lower-level skill and the request clearly belongs only to that stage.
 
 ## Workflow
-1. Start at the highest-level need: if the user wants a full structured draft, route to `chromosome-3d-idea-to-model`.
-2. If the request is dominated by ambiguous phenotype language or unclear mechanism claims, handoff to `mechanism-decomposer`.
-3. If the mechanism description is self-contradictory, internally inconsistent, or still degenerate, route back to `mechanism-decomposer`.
-4. Once competing hypotheses are explicit and internally coherent, handoff to `minimal-model-builder`.
-4. Once a minimal model and control exist, handoff to `observable-translator`.
-5. Only after model and validation readiness are clear, handoff to `simulation-recommender`.
-6. If unresolved degeneracy or missing prerequisites appear at any stage, pause escalation and stop at the current stage rather than routing forward.
+1. Explore project context first: check whether files, docs, recent commits, or user-supplied chromosome data already imply a `data-driven polymer model` branch.
+2. Start at the highest-level need: if the user wants a full structured draft, route to `chromosome-3d-idea-to-model`.
+3. If the request is dominated by ambiguous phenotype language or unclear mechanism claims, handoff to `mechanism-decomposer`.
+4. If the mechanism description is self-contradictory, internally inconsistent, or still degenerate, route back to `mechanism-decomposer`.
+5. Once competing hypotheses are explicit and internally coherent, handoff to `minimal-model-builder`.
+6. Once a minimal model and control exist, handoff to `observable-translator`.
+7. Only after model and validation readiness are clear, handoff to `simulation-recommender`.
+8. If unresolved degeneracy or missing prerequisites appear at any stage, pause escalation and stop at the current stage rather than routing forward.
+9. During clarification-heavy stages, enforce `one question per message` instead of letting the interaction sprawl.
 
 ## Routing Table
 | Input state | Next skill | Handoff condition |
 | --- | --- | --- |
+| User supplied files, matrices, or structure-derived inputs dominate the request | `chromosome-3d-idea-to-model` | start with a `data-driven polymer model` check before mechanism-heavy routing |
 | User wants one end-to-end modeling draft now | `chromosome-3d-idea-to-model` | Use the top-level draft when the whole chain must be summarized in one response |
 | Phenotype is clear but mechanism is ambiguous | `mechanism-decomposer` | Stop here until competing hypotheses and missing evidence are explicit |
 | Mechanism claims are self-contradictory or unstable | route back to `mechanism-decomposer` | must not handoff to `minimal-model-builder` until the contradiction is resolved |
@@ -45,9 +48,12 @@ Do not use this skill when the user explicitly names one lower-level skill and t
 
 Use the word `handoff` explicitly when moving from one stage to the next so the transition is visible rather than implicit.
 
+When clarification is still active, use `one question per message` until the state is coherent enough for a stable handoff.
+
 ## Common Mistakes
 - Sending a phenotype-heavy request directly to `minimal-model-builder` before `mechanism-decomposer`.
 - Letting a self-contradictory mechanism story pass forward instead of sending it back to `mechanism-decomposer`.
+- Ignoring a user-supplied dataset and routing straight into a `physical mechanism polymer model` when a `data-driven polymer model` branch should be considered first.
 - Routing into `simulation-recommender` before validation strategy exists.
 - Ignoring degeneracy and pushing the workflow forward instead of using a pause.
 - Repeating the full logic of a child skill inside the router instead of making a clean handoff.

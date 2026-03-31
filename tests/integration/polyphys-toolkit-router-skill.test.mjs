@@ -28,7 +28,10 @@ test("polyphys-toolkit-router skill exists and encodes the suite handoff order",
     "pause",
     "self-contradictory",
     "route back to `mechanism-decomposer`",
-    "must not handoff to `minimal-model-builder`"
+    "must not handoff to `minimal-model-builder`",
+    "data-driven polymer model",
+    "physical mechanism polymer model",
+    "one question per message"
   ];
 
   for (const phrase of requiredPhrases) {
