@@ -2,6 +2,42 @@
 
 PolyPhys Toolkit is an agentic skill suite for translating chromosome 3D structure ideas into clear, testable physical modeling drafts.
 
+## Installation
+
+An AI agent should be able to install the suite by running the repository script directly:
+
+```bash
+bash scripts/install-polyphys-skills.sh
+```
+
+The installer chooses the target skill directory in this order:
+- `$CODEX_HOME/skills` if `CODEX_HOME` is set
+- `~/.codex/skills` if `~/.codex` exists
+- `~/.agents/skills` if `~/.agents` exists
+- otherwise it defaults to `~/.codex/skills`
+
+To force a specific target directory, pass it explicitly:
+
+```bash
+bash scripts/install-polyphys-skills.sh "$HOME/.agents/skills"
+```
+
+## Verify Installation
+
+After installation, an agent or user should be able to verify the suite with:
+
+```bash
+ls "${CODEX_HOME:-$HOME/.codex}/skills"
+```
+
+If you installed into `~/.agents/skills`, inspect that directory instead:
+
+```bash
+ls "$HOME/.agents/skills"
+```
+
+The installed set should include `polyphys-toolkit-router`, `chromosome-3d-idea-to-model`, `mechanism-decomposer`, `minimal-model-builder`, `observable-translator`, and `simulation-recommender`.
+
 The current v1 design is captured in [docs/superpowers/specs/2026-03-30-polyphys-toolkit-design.md](docs/superpowers/specs/2026-03-30-polyphys-toolkit-design.md).
 
 The suite entry point is [docs/superpowers/skills/polyphys-toolkit-router/SKILL.md](docs/superpowers/skills/polyphys-toolkit-router/SKILL.md), which routes requests across the specialized chromosome-modeling skills below.
