@@ -10,4 +10,6 @@ The second implemented skill is [docs/superpowers/skills/mechanism-decomposer/SK
 
 The third implemented skill is [docs/superpowers/skills/observable-translator/SKILL.md](docs/superpowers/skills/observable-translator/SKILL.md), which turns model hypotheses into fitting targets, orthogonal validation, dynamic diagnostics, and in silico perturbation logic.
 
+The fourth implemented skill is [docs/superpowers/skills/minimal-model-builder/SKILL.md](docs/superpowers/skills/minimal-model-builder/SKILL.md), which translates a mechanism hypothesis into a base polymer model, a control, a minimal perturbation, and an explicit active-module self-check.
+
 Human verification steps are tracked in [docs/verification/human-verification-issue.md](docs/verification/human-verification-issue.md).
