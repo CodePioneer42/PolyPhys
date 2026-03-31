@@ -4,6 +4,8 @@ PolyPhys Toolkit is an agentic skill suite for translating chromosome 3D structu
 
 The current v1 design is captured in [docs/superpowers/specs/2026-03-30-polyphys-toolkit-design.md](docs/superpowers/specs/2026-03-30-polyphys-toolkit-design.md).
 
+The suite entry point is [docs/superpowers/skills/polyphys-toolkit-router/SKILL.md](docs/superpowers/skills/polyphys-toolkit-router/SKILL.md), which routes requests across the specialized chromosome-modeling skills below.
+
 The first implemented skill is [docs/superpowers/skills/chromosome-3d-idea-to-model/SKILL.md](docs/superpowers/skills/chromosome-3d-idea-to-model/SKILL.md), which turns chromosome folding ideas into a structured modeling draft with degeneracy handling, control design, and validation guardrails.
 
 The second implemented skill is [docs/superpowers/skills/mechanism-decomposer/SKILL.md](docs/superpowers/skills/mechanism-decomposer/SKILL.md), which isolates phenotype language, competing mechanisms, and explicit degeneracy warnings before model construction.
