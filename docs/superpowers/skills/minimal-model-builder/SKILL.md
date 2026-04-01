@@ -10,13 +10,16 @@ Convert a chromosome mechanism hypothesis into the smallest physical model that 
 
 The skill should also expose hidden active assumptions. If the mechanism only works through nonequilibrium driving, motor stepping, turnover, or feedback, that fact must be stated rather than buried inside a vague model label.
 
+## Stage Boundary
+This skill has a strict stage boundary at model construction. Stay inside `Base Polymer Model`, `Baseline Control`, `Experimental Perturbation`, active assumptions, readiness notes, and scope limits. Do not produce validation-plan or simulation-framing content in the same response.
+
 ## When to Use
 - Candidate mechanisms have already been identified and the next step is to write a model that could, in principle, distinguish them.
 - A draft model has grown too large and needs to be reduced to the smallest defensible version.
 - The current proposal lacks a clear control or does not state what the perturbation actually adds.
 - It is unclear whether an equilibrium model is enough or whether nonequilibrium ingredients are required.
 
-Do not use this skill to identify mechanisms from scratch, design validation observables in detail, or recommend software. Its job ends once the minimal model and controls are explicit.
+Do not use this skill to identify mechanisms from scratch, design validation observables in detail, or recommend software. Its job ends once the minimal model and controls are explicit and the next stage is explicitly confirmed.
 
 ## Workflow
 1. Choose the `Base Polymer Model` that captures the geometry and scale with the fewest assumptions.
@@ -27,7 +30,8 @@ Do not use this skill to identify mechanisms from scratch, design validation obs
 6. Add a `Data Source Check` and `Parameterization Readiness` note: identify the data source and whether downstream parameterization is needed. Do not read detailed parameter files during model-selection stage by default.
 7. Use `one multiple-choice question per message` when one design ambiguity still blocks the minimal model.
 8. End with `Scope Limits` that say what this minimal model intentionally does not explain yet.
-9. Treat a coherent output package as a `model-design end node` unless explicit validation handoff is the active task.
+9. Use a `confirmation gate` or explicit stop condition before any downstream handoff.
+10. Treat a coherent output package as a `model-design end node` unless explicit validation handoff is the active task.
 
 ## Checklist
 - Choose the smallest `Base Polymer Model` that can still test the mechanism.
@@ -35,7 +39,8 @@ Do not use this skill to identify mechanisms from scratch, design validation obs
 - State `Active Components Required` instead of hiding nonequilibrium assumptions.
 - Identify the data source and defer detailed parameter files until simulation setup is active.
 - Use a multiple-choice format with `2-4` options plus `Other` when clarification is still active.
-- Do not handoff to `observable-translator` until the model and control are both stable.
+- Do not handoff to `observable-translator` until the model and control are both stable and the next stage is explicitly confirmed.
+- End with a direct question or stop condition instead of drifting into validation framing.
 
 ## Workflow State Machine
 ### State 1: Model Skeleton
@@ -52,12 +57,14 @@ Do not use this skill to identify mechanisms from scratch, design validation obs
 - Add `Data Source Check`, `Parameterization Readiness`, and `Scope Limits`.
 - Keep parameter files deferred unless simulation setup is the active task.
 - Use a multiple-choice question when one blocked design choice can be narrowed cleanly.
+- Add a confirmation gate before any handoff toward validation design.
 - Treat a coherent output package as a `model-design end node` when no explicit downstream handoff is requested.
-- Exit gate: the model is coherent enough for validation design, the remaining gap can be resolved with one question, or the model-design end node is reached.
+- Exit gate: the model is coherent enough for validation design, the remaining gap can be resolved with one question, a confirmed handoff is requested, or the model-design end node is reached.
 
 ## After This Stage
 - If the model is still unstable, ask one question.
-- If the model is coherent, handoff to `observable-translator`.
+- If the model is coherent but the next stage is still unconfirmed, ask one question.
+- If the user confirms the validation handoff and asks to continue, handoff to `observable-translator`.
 - If the model design is complete, end the conversation and wait for a new explicit request.
 - If the current draft is slipping into premature parameterization, stop and return to model selection.
 
@@ -66,6 +73,7 @@ Do not use this skill to identify mechanisms from scratch, design validation obs
 - `skipped controls`: was any mechanism-bearing model proposed without a real control?
 - `premature parameterization`: did the skill start reading detailed parameter files too early?
 - `active assumptions`: were nonequilibrium requirements stated explicitly?
+- `stage boundary`: did the response stay inside model construction instead of leaking validation or simulation framing?
 - `handoff readiness`: is the model actually ready for validation design?
 - `question format`: did clarification stay in multiple-choice form unless forced otherwise?
 - `end-node discipline`: did the skill stop at the model-design end node when the stage was complete?
@@ -122,6 +130,11 @@ Every response should use the following structure.
 - Which biological claims the minimal model cannot support yet
 - What should be added only in a later model iteration
 
+### Confirmation Gate
+- Direct question to the user when the next design choice still matters
+- Stop condition for this conversation
+- Confirmed next stage only after the user requests validation handoff
+
 ## Quick Reference
 | Situation | Required response |
 | --- | --- |
@@ -140,3 +153,4 @@ Every response should use the following structure.
 - Reading detailed parameter files before model selection is stable.
 - Emitting a full `Parameter Card` before the work has even reached simulation setup.
 - Forgetting to say what the minimal model does not explain, causing scope creep from the start.
+- Treating a coherent model as permission to start validation design in the same response.

@@ -26,7 +26,8 @@ test("simulation-recommender skill exists and encodes conservative recommendatio
     "Software Capability Check",
     "Pause recommendation",
     "degeneracy",
-    "conservative"
+    "conservative",
+    "SOFTWARE RECOMMENDATION MANDATE & ANTI-LAZINESS"
   ];
 
   for (const phrase of requiredPhrases) {
@@ -49,16 +50,19 @@ test("simulation-recommender encodes checklist, state machine, after-stage actio
   assert.match(skillDoc, /overcommitted recommendation/i);
 });
 
-test("simulation-recommender verifies named software against official docs and allows custom MC implementation", async () => {
+test("simulation-recommender verifies named software against official docs and bans lazy abstract fallbacks", async () => {
   const skillDoc = await readFile(skillPath, "utf8");
 
   assert.match(skillDoc, /official docs/i);
   assert.match(skillDoc, /version-sensitive/i);
   assert.match(skillDoc, /package-native/i);
   assert.match(skillDoc, /package \+ custom extension/i);
-  assert.match(skillDoc, /standalone custom code/i);
-  assert.match(skillDoc, /Monte Carlo/i);
-  assert.match(skillDoc, /self-written code/i);
+  assert.match(skillDoc, /BANNED TERMS \(Blacklist\)/i);
+  assert.match(skillDoc, /"standalone custom code"/i);
+  assert.match(skillDoc, /"write your own scripts"/i);
+  assert.match(skillDoc, /"generic MD engine"/i);
+  assert.doesNotMatch(skillDoc, /Prefer `standalone custom code`/i);
+  assert.doesNotMatch(skillDoc, /Treat self-written Monte Carlo code as a valid route/i);
 });
 
 test("simulation-recommender uses multiple-choice clarification and a recommendation end node", async () => {
@@ -69,4 +73,21 @@ test("simulation-recommender uses multiple-choice clarification and a recommenda
   assert.match(skillDoc, /Other/i);
   assert.match(skillDoc, /recommendation end node/i);
   assert.match(skillDoc, /If the recommendation is complete, end the conversation/i);
+});
+
+test("simulation-recommender requires concrete mainstream engines with command mappings", async () => {
+  const skillDoc = await readFile(skillPath, "utf8");
+
+  assert.match(skillDoc, /##\#\[SOFTWARE RECOMMENDATION MANDATE & ANTI-LAZINESS\] \(CRITICAL\)/);
+  assert.match(skillDoc, /ABSOLUTELY FORBIDDEN to recommend abstract, non-actionable solutions/i);
+  assert.match(skillDoc, /LAMMPS/i);
+  assert.match(skillDoc, /HOOMD-blue/i);
+  assert.match(skillDoc, /OpenMM/i);
+  assert.match(skillDoc, /GROMACS/i);
+  assert.match(skillDoc, /MANDATORY OUTPUT FORMAT/i);
+  assert.match(skillDoc, /#### Recommended Engine: \[Software Name/i);
+  assert.match(skillDoc, /\*\s+\*\*Key Modules & Command Mapping:\*\*/i);
+  assert.match(skillDoc, /bond_style fene|hoomd\.md\.bond\.FENE/i);
+  assert.match(skillDoc, /pair_style lj\/cut|pair_style yukawa/i);
+  assert.match(skillDoc, /fix langevin/i);
 });

@@ -24,7 +24,8 @@ test("mechanism-decomposer skill exists and encodes degeneracy-first chromosome 
     "phase separation",
     "thermodynamic evidence",
     "Required Next Evidence",
-    "Routing Decision"
+    "Routing Decision",
+    "stage boundary"
   ];
 
   for (const phrase of requiredPhrases) {
@@ -41,7 +42,6 @@ test("mechanism-decomposer encodes checklist, state machine, after-stage actions
   assert.match(skillDoc, /Exit gate/i);
   assert.match(skillDoc, /## After This Stage/i);
   assert.match(skillDoc, /If ambiguity remains high, ask one question/i);
-  assert.match(skillDoc, /If competing hypotheses are coherent, handoff to `minimal-model-builder`/i);
   assert.match(skillDoc, /## Self-Review/i);
   assert.match(skillDoc, /unsupported leaps/i);
   assert.match(skillDoc, /routing readiness/i);
@@ -55,4 +55,13 @@ test("mechanism-decomposer uses multiple-choice clarification and a decompositio
   assert.match(skillDoc, /Other/i);
   assert.match(skillDoc, /decomposition end node/i);
   assert.match(skillDoc, /If the decomposition is complete, end the conversation/i);
+});
+
+test("mechanism-decomposer stops at decomposition and uses a gated next-step question", async () => {
+  const skillDoc = await readFile(skillPath, "utf8");
+
+  assert.match(skillDoc, /stage boundary/i);
+  assert.match(skillDoc, /confirmation gate|stop condition/i);
+  assert.match(skillDoc, /Which of these candidate mechanisms/i);
+  assert.doesNotMatch(skillDoc, /If competing hypotheses are coherent, handoff to `minimal-model-builder`/i);
 });

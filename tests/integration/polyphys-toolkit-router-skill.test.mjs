@@ -32,7 +32,8 @@ test("polyphys-toolkit-router skill exists and encodes the suite handoff order",
     "data-driven polymer model",
     "physical mechanism polymer model",
     "one question per message",
-    "multiple-choice"
+    "multiple-choice",
+    "WORKFLOW BREAKPOINTS & STATE LOCK"
   ];
 
   for (const phrase of requiredPhrases) {
@@ -70,8 +71,38 @@ test("polyphys-toolkit-router uses multiple-choice clarification and stops after
   assert.match(skillDoc, /multiple-choice question/i);
   assert.match(skillDoc, /2-4/i);
   assert.match(skillDoc, /Other/i);
-  assert.match(skillDoc, /Execution Outline/i);
-  assert.match(skillDoc, /mechanism is clear/i);
   assert.match(skillDoc, /design doc has been written/i);
   assert.match(skillDoc, /end the conversation/i);
+});
+
+test("polyphys-toolkit-router enforces workflow breakpoints and forbids multi-stage output", async () => {
+  const skillDoc = await readFile(skillPath, "utf8");
+
+  assert.match(skillDoc, /##\#\[WORKFLOW BREAKPOINTS & STATE LOCK\] \(CRITICAL\)/);
+  assert.match(skillDoc, /Sequential Execution/i);
+  assert.match(skillDoc, /Mechanism Decomposition -> Minimal Model Building -> Observable Translation -> Software Recommendation/i);
+  assert.match(skillDoc, /NO INFO-DUMPING \(ABSOLUTELY FORBIDDEN\)/i);
+  assert.match(skillDoc, /Mandatory Stop Point/i);
+  assert.match(skillDoc, /You MUST \*\*STOP GENERATING\*\* immediately/i);
+  assert.match(skillDoc, /Which of these candidate mechanisms do you prefer to validate first\?/i);
+  assert.match(skillDoc, /User Confirmation Gate/i);
+  assert.doesNotMatch(skillDoc, /handoff toward the `Execution Outline`/i);
+  assert.doesNotMatch(skillDoc, /If the mechanism is clear, handoff toward the `Execution Outline`/i);
+});
+
+test("polyphys-toolkit-router sharpens mechanism branches and states how to distinguish them", async () => {
+  const skillDoc = await readFile(skillPath, "utf8");
+
+  assert.match(skillDoc, /Boundary tethering \/ anchoring loss/i);
+  assert.match(skillDoc, /Global chromatin material-state shift/i);
+  assert.match(skillDoc, /What would distinguish it:/i);
+  assert.match(skillDoc, /Hi-C|imaging|perturbation/i);
+});
+
+test("polyphys-toolkit-router uses a compact mixed-evidence fallback", async () => {
+  const skillDoc = await readFile(skillPath, "utf8");
+
+  assert.match(skillDoc, /if the evidence is still too mixed/i);
+  assert.match(skillDoc, /ask immediately for the single most direct discriminator/i);
+  assert.match(skillDoc, /Required Next Evidence/i);
 });

@@ -10,13 +10,16 @@ Translate a chromosome modeling hypothesis into an evidence plan that can suppor
 
 The second rule is to resolve mechanistic ambiguity rather than decorate it. When competing mechanisms remain plausible, choose observables that break degeneracy instead of adding more of the same static evidence.
 
+## Stage Boundary
+This skill has a strict stage boundary at validation planning. Stay inside fit/validation separation, degeneracy-breakers, dynamic diagnostics, perturbations, and interpretation risks. Do not produce software or engine recommendation content in the same response.
+
 ## When to Use
 - A chromosome model already exists and now needs a defensible validation strategy.
 - The same dataset is being reused for both fitting and confirmation.
 - Static structure data alone is not enough to distinguish two competing mechanisms.
 - The next step requires deciding whether FRAP, MSD, single-cell variability, perturbation response, or another measurement would be more informative.
 
-Do not use this skill to decide the underlying mechanisms from scratch or to build the physical model itself. Start from an explicit hypothesis or a small set of competing hypotheses.
+Do not use this skill to decide the underlying mechanisms from scratch or to build the physical model itself. Start from an explicit hypothesis or a small set of competing hypotheses, and only handoff downstream after the validation plan is explicitly confirmed.
 
 ## Workflow
 1. List the `Fitting Observables` used to set model parameters.
@@ -26,7 +29,8 @@ Do not use this skill to decide the underlying mechanisms from scratch or to bui
 5. Recommend `In Silico Perturbations` that remove or weaken the suspected mechanism and predict a measurable response.
 6. Use `one multiple-choice question per message` when one unresolved measurement choice still blocks the plan.
 7. State interpretation risks when the current observable set still cannot resolve degeneracy.
-8. Treat a coherent output package as a `validation-plan end node` unless explicit simulation framing is the active task.
+8. Use a `confirmation gate` or explicit stop condition before any downstream handoff.
+9. Treat a coherent output package as a `validation-plan end node` unless explicit simulation framing is the active task.
 
 ## Checklist
 - Name the `Fitting Observables` explicitly before proposing validation.
@@ -34,7 +38,8 @@ Do not use this skill to decide the underlying mechanisms from scratch or to bui
 - Identify the one or two highest-value `Degeneracy-Breakers`.
 - Add dynamic diagnostics when static evidence cannot separate mechanisms.
 - Use a multiple-choice format with `2-4` options plus `Other` when clarification is still active.
-- Do not handoff to simulation recommendation until circular reuse has been addressed.
+- Do not handoff to simulation recommendation until circular reuse has been addressed and the validation plan is explicitly confirmed.
+- End with a direct question or stop condition instead of drifting into software framing.
 
 ## Workflow State Machine
 ### State 1: Fit / Validation Separation
@@ -51,12 +56,14 @@ Do not use this skill to decide the underlying mechanisms from scratch or to bui
 - State the remaining interpretation risks.
 - Decide whether the plan is ready for simulation framing.
 - Use a multiple-choice question when one blocked measurement choice can be narrowed cleanly.
+- Add a confirmation gate before any handoff toward simulation framing.
 - Treat a coherent output package as a `validation-plan end node` when no explicit downstream handoff is requested.
-- Exit gate: the validation plan is coherent enough to route forward, the missing evidence is narrowed to one question, or the validation-plan end node is reached.
+- Exit gate: the validation plan is coherent enough to route forward, the missing evidence is narrowed to one question, a confirmed handoff is requested, or the validation-plan end node is reached.
 
 ## After This Stage
 - If validation is still circular, ask one question.
-- If the validation plan is coherent, handoff to `simulation-recommender`.
+- If the validation plan is coherent but the next stage is still unconfirmed, ask one question.
+- If the user confirms the software-framing handoff and asks to continue, handoff to `simulation-recommender`.
 - If the validation plan is complete, end the conversation and wait for a new explicit request.
 - If degeneracy coverage is still weak, stay in validation design and strengthen the plan before routing.
 
@@ -65,6 +72,7 @@ Do not use this skill to decide the underlying mechanisms from scratch or to bui
 - `circular reuse`: did any observable family silently serve as both fit and proof?
 - `degeneracy coverage`: do the chosen observables actually separate the competing mechanisms?
 - `dynamic adequacy`: were FRAP, MSD, or other time-resolved diagnostics added when needed?
+- `stage boundary`: did the response stay inside validation planning instead of leaking software framing?
 - `handoff readiness`: is the plan strong enough to support computational framing?
 - `question format`: did clarification stay in multiple-choice form unless forced otherwise?
 - `end-node discipline`: did the skill stop at the validation-plan end node when the stage was complete?
@@ -108,6 +116,11 @@ Every response should use the following structure.
 - Remaining degeneracy risks
 - Missing evidence that still blocks a strong conclusion
 
+### Confirmation Gate
+- Direct question to the user when validation scope or next-stage transition still matters
+- Stop condition for this conversation
+- Confirmed next stage only after the user requests software framing
+
 ## Quick Reference
 | Situation | Required response |
 | --- | --- |
@@ -123,3 +136,4 @@ Every response should use the following structure.
 - Ignoring dynamic diagnostics when FRAP, MSD, or related time-resolved behavior is the only real way to separate hypotheses.
 - Recommending perturbations that do not actually target the proposed mechanism.
 - Listing many observables without stating which ones are true `Degeneracy-Breakers`.
+- Treating a coherent validation plan as permission to recommend software in the same response.

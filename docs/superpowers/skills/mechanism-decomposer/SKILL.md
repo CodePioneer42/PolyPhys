@@ -10,13 +10,16 @@ Separate descriptive chromosome 3D phenotypes from candidate physical mechanisms
 
 Treat `phase separation` as a risky shortcut label. Unless the prompt includes explicit thermodynamic evidence, rewrite it as a descriptive phenotype such as condensation, clustering, compaction, or domain formation.
 
+## Stage Boundary
+This skill has a strict stage boundary at decomposition. Stay inside phenotype normalization, competing hypotheses, degeneracy warning, and required next evidence. Use a confirmation gate before any downstream handoff, and do not produce minimal-model, validation, or software content in the same response.
+
 ## When to Use
 - A chromosome 3D prompt describes a visible phenotype more clearly than its underlying mechanism.
 - The user jumps straight from a phenotype to a mechanism claim, especially around `phase separation`.
 - Multiple mechanisms could plausibly explain the same structure, localization pattern, or contact-map feature.
 - The next step depends on whether the problem should branch into competing models or request more evidence first.
 
-Do not use this skill to build the full physical model, define observables in detail, or recommend simulation software. Hand off after decomposition is complete.
+Do not use this skill to build the full physical model, define observables in detail, or recommend simulation software. Hand off only after decomposition is complete and the next path is explicitly confirmed.
 
 ## Workflow
 1. Normalize the prompt into a chromosome 3D problem statement with phenotype-first wording.
@@ -25,8 +28,9 @@ Do not use this skill to build the full physical model, define observables in de
 4. Write `Competing Hypotheses` in plain physical terms rather than software or assay jargon.
 5. State the `Required Next Evidence` that would reduce degeneracy.
 6. Use `one multiple-choice question per message` when one ambiguity still blocks decomposition.
-7. Finish with a `Routing Decision` that says whether to ask for more constraints or proceed to parallel model construction.
-8. Treat a coherent decomposition package as a `decomposition end node` unless an explicit handoff is the active task.
+7. Finish with a `Routing Decision` that says whether to ask for more constraints or which mechanism branch to pursue first.
+8. Use a `confirmation gate` or explicit stop condition before any downstream handoff.
+9. Treat a coherent decomposition package as a `decomposition end node` unless an explicit handoff is the active task.
 
 ## Checklist
 - Normalize the prompt into phenotype-first language before naming mechanisms.
@@ -34,7 +38,8 @@ Do not use this skill to build the full physical model, define observables in de
 - Write `Competing Hypotheses` in physical terms rather than software labels.
 - Name the single most useful `Required Next Evidence`.
 - Use a multiple-choice format with `2-4` options plus `Other` when clarification is still active.
-- Do not handoff to model building until the competing hypotheses are coherent enough to compare.
+- Do not handoff to model building until the competing hypotheses are coherent enough to compare and the next branch is explicitly confirmed.
+- End with a direct user-choice question instead of an automatic same-turn route forward.
 
 ## Workflow State Machine
 ### State 1: Phenotype Normalization
@@ -51,12 +56,14 @@ Do not use this skill to build the full physical model, define observables in de
 ### State 3: Evidence And Routing Readiness
 - State the `Required Next Evidence` and the `Routing Decision`.
 - Keep the output at the decomposition layer instead of drifting into full model construction.
+- Add a confirmation gate when more than one mechanism branch remains viable.
 - Treat a coherent decomposition package as a `decomposition end node` when no explicit downstream handoff is requested.
-- Exit gate: the next step is either one clarifying question, a clean route to model building, or the decomposition end node.
+- Exit gate: the next step is either one clarifying question, one confirmed route to model building, or the decomposition end node.
 
 ## After This Stage
 - If ambiguity remains high, ask one question.
-- If competing hypotheses are coherent, handoff to `minimal-model-builder`.
+- If competing hypotheses are coherent but the next path is still unconfirmed, ask: *"Which of these candidate mechanisms do you want to pursue first?"*
+- If the user confirms the next path and asks to continue, handoff to `minimal-model-builder`.
 - If the decomposition is complete, end the conversation and wait for a new explicit request.
 - If the prompt still confuses phenotype and mechanism, stay in decomposition mode and do not route forward.
 
@@ -64,6 +71,7 @@ Do not use this skill to build the full physical model, define observables in de
 - `stage completeness`: are phenotype normalization, competing hypotheses, evidence, and routing all present?
 - `unsupported leaps`: did the response jump from phenotype to one favored mechanism too early?
 - `degeneracy discipline`: was ambiguity made explicit rather than implied?
+- `stage boundary`: did the response stay inside decomposition rather than leaking model-building content?
 - `routing readiness`: is the next step narrow enough to justify a handoff?
 - `scope control`: did the skill avoid drifting into full model design?
 - `question format`: did clarification stay in multiple-choice form unless forced otherwise?
@@ -109,6 +117,11 @@ Every response should use the following structure.
 - Ask for more evidence before further narrowing, or
 - Proceed with two competing control models if the user prefers theory-first exploration
 
+### Confirmation Gate
+- Direct question to the user
+- Stop condition for this conversation
+- Confirmed next stage only after the user chooses a branch
+
 ## Quick Reference
 | Situation | Required response |
 | --- | --- |
@@ -125,3 +138,4 @@ Every response should use the following structure.
 - Skipping the `Degeneracy Warning` even when two mechanisms obviously remain plausible.
 - Asking for generic “more data” instead of naming the `Required Next Evidence`.
 - Building a full model before issuing a clear `Routing Decision`.
+- Treating coherent hypotheses as permission to auto-handoff without a confirmation gate.

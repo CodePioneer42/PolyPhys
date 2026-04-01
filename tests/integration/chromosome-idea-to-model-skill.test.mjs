@@ -23,7 +23,8 @@ test("chromosome idea-to-model skill exists and encodes v1 guardrails", async ()
     "Baseline Control",
     "Orthogonal Validation",
     "Grounding Notes",
-    "phase separation"
+    "phase separation",
+    "WORKFLOW BREAKPOINTS & STATE LOCK"
   ];
 
   for (const phrase of requiredPhrases) {
@@ -31,34 +32,27 @@ test("chromosome idea-to-model skill exists and encodes v1 guardrails", async ()
   }
 });
 
-test("chromosome idea-to-model skill encodes the full modeling draft template", async () => {
+test("chromosome idea-to-model skill defers later stages until mechanism confirmation", async () => {
   const skillDoc = await readFile(skillPath, "utf8");
 
   const requiredPhrases = [
     "Problem Framing",
     "Competing Mechanisms",
-    "The Minimal Physical Model",
-    "Observables & Validation Strategy",
-    "Simulation Implementation",
     "Grounding Notes",
-    "Base Polymer Model",
-    "Baseline Control",
-    "Experimental Perturbation",
-    "Active Components Required",
-    "Active Module Checklist",
-    "Fitting Observables",
-    "Orthogonal Validation",
-    "Degeneracy-Breakers",
-    "In Silico Perturbations",
     "Consensus",
     "Contested",
     "Heuristic",
-    "Software Capability Check"
+    "Software Capability Check",
+    "Mandatory Stop Point",
+    "User Confirmation Gate"
   ];
 
   for (const phrase of requiredPhrases) {
     assert.match(skillDoc, new RegExp(phrase.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
   }
+
+  assert.doesNotMatch(skillDoc, /## Simulation Implementation/);
+  assert.doesNotMatch(skillDoc, /## Execution Outline/);
 });
 
 test("chromosome idea-to-model skill encodes the phase-separation downgrade and degeneracy pause rules", async () => {
@@ -87,24 +81,21 @@ test("chromosome idea-to-model skill uses multiple-choice clarification and ends
   assert.match(skillDoc, /multiple-choice/i);
   assert.match(skillDoc, /2-4/i);
   assert.match(skillDoc, /Other/i);
-  assert.match(skillDoc, /Execution Outline/i);
-  assert.match(skillDoc, /mechanism is clear/i);
   assert.match(skillDoc, /active end node/i);
   assert.match(skillDoc, /end the conversation/i);
   assert.match(skillDoc, /wait for a new explicit request/i);
 });
 
-test("chromosome idea-to-model skill verifies software capability with official docs and permits custom MC code", async () => {
+test("chromosome idea-to-model skill verifies software capability without defaulting to custom-code fallbacks", async () => {
   const skillDoc = await readFile(skillPath, "utf8");
 
   assert.match(skillDoc, /Software Capability Check/i);
   assert.match(skillDoc, /official docs/i);
   assert.match(skillDoc, /package-native/i);
   assert.match(skillDoc, /package \+ custom extension/i);
-  assert.match(skillDoc, /standalone custom code/i);
-  assert.match(skillDoc, /Monte Carlo/i);
-  assert.match(skillDoc, /self-written code/i);
   assert.match(skillDoc, /existing model/i);
+  assert.doesNotMatch(skillDoc, /standalone custom code/i);
+  assert.doesNotMatch(skillDoc, /self-written code/i);
 });
 
 test("chromosome idea-to-model skill explores project context without default git and records design docs only after approval", async () => {
@@ -141,8 +132,18 @@ test("chromosome idea-to-model skill encodes checklist, state machine, after-sta
   assert.match(skillDoc, /## After This Stage/i);
   assert.match(skillDoc, /If the modeling draft is approved, write the design doc/i);
   assert.match(skillDoc, /If the draft is unresolved, ask one question/i);
-  assert.match(skillDoc, /If the mechanism is clear, provide the Execution Outline/i);
   assert.match(skillDoc, /## Self-Review/i);
   assert.match(skillDoc, /stage completeness/i);
   assert.match(skillDoc, /premature handoff/i);
+});
+
+test("chromosome idea-to-model skill enforces a hard stop after mechanism decomposition", async () => {
+  const skillDoc = await readFile(skillPath, "utf8");
+
+  assert.match(skillDoc, /##\#\[WORKFLOW BREAKPOINTS & STATE LOCK\] \(CRITICAL\)/);
+  assert.match(skillDoc, /Mechanism Decomposition -> Minimal Model Building -> Observable Translation -> Software Recommendation/i);
+  assert.match(skillDoc, /Never generate the "Minimal Physical Model" or "Execution Outline" during the mechanism brainstorming phase/i);
+  assert.match(skillDoc, /You MUST \*\*STOP GENERATING\*\* immediately/i);
+  assert.match(skillDoc, /Which of these candidate mechanisms do you prefer to validate first\?/i);
+  assert.match(skillDoc, /FORBIDDEN to trigger the minimal model building phase/i);
 });

@@ -26,7 +26,8 @@ test("observable-translator skill exists and encodes non-circular chromosome val
     "Avoid Circularity",
     "dynamic diagnostics",
     "FRAP",
-    "MSD"
+    "MSD",
+    "stage boundary"
   ];
 
   for (const phrase of requiredPhrases) {
@@ -43,7 +44,6 @@ test("observable-translator encodes checklist, state machine, after-stage action
   assert.match(skillDoc, /Exit gate/i);
   assert.match(skillDoc, /## After This Stage/i);
   assert.match(skillDoc, /If validation is still circular, ask one question/i);
-  assert.match(skillDoc, /If the validation plan is coherent, handoff to `simulation-recommender`/i);
   assert.match(skillDoc, /## Self-Review/i);
   assert.match(skillDoc, /circular reuse/i);
   assert.match(skillDoc, /degeneracy coverage/i);
@@ -57,4 +57,13 @@ test("observable-translator uses multiple-choice clarification and a validation-
   assert.match(skillDoc, /Other/i);
   assert.match(skillDoc, /validation-plan end node/i);
   assert.match(skillDoc, /If the validation plan is complete, end the conversation/i);
+});
+
+test("observable-translator stops at validation planning and defers software framing", async () => {
+  const skillDoc = await readFile(skillPath, "utf8");
+
+  assert.match(skillDoc, /stage boundary/i);
+  assert.match(skillDoc, /confirmation gate|stop condition/i);
+  assert.match(skillDoc, /Do not produce software or engine recommendation content/i);
+  assert.doesNotMatch(skillDoc, /If the validation plan is coherent, handoff to `simulation-recommender`/i);
 });

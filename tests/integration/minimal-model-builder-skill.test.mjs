@@ -30,7 +30,8 @@ test("minimal-model-builder skill exists and encodes control-first chromosome mo
     "parameter files",
     "nonequilibrium",
     "purely repulsive",
-    "control"
+    "control",
+    "stage boundary"
   ];
 
   for (const phrase of requiredPhrases) {
@@ -55,7 +56,6 @@ test("minimal-model-builder encodes checklist, state machine, after-stage action
   assert.match(skillDoc, /Exit gate/i);
   assert.match(skillDoc, /## After This Stage/i);
   assert.match(skillDoc, /If the model is still unstable, ask one question/i);
-  assert.match(skillDoc, /If the model is coherent, handoff to `observable-translator`/i);
   assert.match(skillDoc, /## Self-Review/i);
   assert.match(skillDoc, /skipped controls/i);
   assert.match(skillDoc, /premature parameterization/i);
@@ -69,4 +69,13 @@ test("minimal-model-builder uses multiple-choice clarification and a model-desig
   assert.match(skillDoc, /Other/i);
   assert.match(skillDoc, /model-design end node/i);
   assert.match(skillDoc, /If the model design is complete, end the conversation/i);
+});
+
+test("minimal-model-builder stops at model construction and defers validation framing", async () => {
+  const skillDoc = await readFile(skillPath, "utf8");
+
+  assert.match(skillDoc, /stage boundary/i);
+  assert.match(skillDoc, /confirmation gate|stop condition/i);
+  assert.match(skillDoc, /Do not produce validation-plan or simulation-framing content/i);
+  assert.doesNotMatch(skillDoc, /If the model is coherent, handoff to `observable-translator`/i);
 });
