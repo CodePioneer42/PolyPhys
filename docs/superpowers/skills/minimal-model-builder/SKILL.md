@@ -24,8 +24,58 @@ Do not use this skill to identify mechanisms from scratch, design validation obs
 3. Define the `Experimental Perturbation` that adds only the minimum extra ingredient needed to test the target mechanism.
 4. State `Active Components Required` explicitly rather than assuming them.
 5. Run an `Active Module Checklist` that asks whether nonequilibrium drivers, extrusion, turnover, feedback, or viscoelastic couplings are genuinely necessary.
-6. Emit a standardized `Parameter Card` as a Markdown table or JSON block so downstream simulation setup has no conceptual blind spots.
-7. End with `Scope Limits` that say what this minimal model intentionally does not explain yet.
+6. Add a `Data Source Check` and `Parameterization Readiness` note: identify the data source and whether downstream parameterization is needed. Do not read detailed parameter files during model-selection stage by default.
+7. Use `one multiple-choice question per message` when one design ambiguity still blocks the minimal model.
+8. End with `Scope Limits` that say what this minimal model intentionally does not explain yet.
+9. Treat a coherent output package as a `model-design end node` unless explicit validation handoff is the active task.
+
+## Checklist
+- Choose the smallest `Base Polymer Model` that can still test the mechanism.
+- Write an explicit `Baseline Control` before adding the perturbation.
+- State `Active Components Required` instead of hiding nonequilibrium assumptions.
+- Identify the data source and defer detailed parameter files until simulation setup is active.
+- Use a multiple-choice format with `2-4` options plus `Other` when clarification is still active.
+- Do not handoff to `observable-translator` until the model and control are both stable.
+
+## Workflow State Machine
+### State 1: Model Skeleton
+- Define the `Base Polymer Model` with the minimum geometry and confinement assumptions.
+- Keep the model small enough to interpret.
+- Exit gate: the base model is explicit and no mechanism-specific ingredient has leaked into it.
+
+### State 2: Control And Perturbation Pair
+- Add `Baseline Control`, `Experimental Perturbation`, and `Active Components Required`.
+- Run the `Active Module Checklist`.
+- Exit gate: the mechanism-bearing ingredient is isolated relative to the control.
+
+### State 3: Parameterization Readiness And Transition
+- Add `Data Source Check`, `Parameterization Readiness`, and `Scope Limits`.
+- Keep parameter files deferred unless simulation setup is the active task.
+- Use a multiple-choice question when one blocked design choice can be narrowed cleanly.
+- Treat a coherent output package as a `model-design end node` when no explicit downstream handoff is requested.
+- Exit gate: the model is coherent enough for validation design, the remaining gap can be resolved with one question, or the model-design end node is reached.
+
+## After This Stage
+- If the model is still unstable, ask one question.
+- If the model is coherent, handoff to `observable-translator`.
+- If the model design is complete, end the conversation and wait for a new explicit request.
+- If the current draft is slipping into premature parameterization, stop and return to model selection.
+
+## Self-Review
+- `stage completeness`: did the draft include base model, control, perturbation, and readiness notes?
+- `skipped controls`: was any mechanism-bearing model proposed without a real control?
+- `premature parameterization`: did the skill start reading detailed parameter files too early?
+- `active assumptions`: were nonequilibrium requirements stated explicitly?
+- `handoff readiness`: is the model actually ready for validation design?
+- `question format`: did clarification stay in multiple-choice form unless forced otherwise?
+- `end-node discipline`: did the skill stop at the model-design end node when the stage was complete?
+
+When clarification is still active, use `one multiple-choice question per message`.
+
+Default question format:
+- Ask a multiple-choice question with `2-4` concrete options.
+- Include `Other` as the final option.
+- Only use open-ended clarification when the design choice cannot be discretized honestly.
 
 ## Output Protocol
 Every response should use the following structure.
@@ -56,15 +106,16 @@ Every response should use the following structure.
 - Reader-writer or state-feedback logic required or not
 - Environmental or viscoelastic coupling required or not
 
-### Parameter Card
-- Present as a Markdown table or JSON block
-- `Monomer Types`
-- `Bonded Potentials`
-- `Non-Bonded Potentials`
-- `Temperature`
-- `Damping Coefficient`
-- `Time Step`
-- Add placeholder ranges or reference dimensions when exact values are not yet known
+### Data Source Check
+- Identify the data source that grounds the current model choice
+- State whether the model is being driven by experimental matrices, tracks, structures, or a mechanism-first hypothesis
+- State what evidence is sufficient now to choose the model path
+
+### Parameterization Readiness
+- State whether exact parameter files are needed yet
+- Do not read detailed parameter files during model-selection stage by default
+- Only build a full Parameter Card when simulation setup is the active task
+- If deferred, identify the data source and whether downstream parameterization is needed
 
 ### Scope Limits
 - Which effects are intentionally excluded
@@ -79,12 +130,13 @@ Every response should use the following structure.
 | Multiple extra ingredients are being added at once | Reduce to one `Experimental Perturbation` over one control before adding more |
 | The current model is too realistic to interpret cleanly | Strip it back to the `Base Polymer Model` plus one perturbation |
 | A hidden control is implied but not written | Write it explicitly; a missing control means the draft is incomplete |
-| User will need help moving toward simulation | Add a `Parameter Card` in Markdown table or JSON form |
+| User will need help moving toward simulation | Add `Parameterization Readiness` now, then build a full `Parameter Card` only when simulation setup becomes the active task |
 
 ## Common Mistakes
 - Starting with a complicated mechanism-rich model instead of a `Base Polymer Model`.
 - Omitting the `Baseline Control` or describing it too vaguely to reproduce.
 - Adding several mechanism-bearing ingredients at once so the `Experimental Perturbation` is no longer interpretable.
 - Hiding a nonequilibrium assumption inside a generic model label instead of stating `Active Components Required`.
-- Failing to emit a `Parameter Card`, leaving monomer types, bonded terms, non-bonded terms, temperature, damping, or time step implicit.
+- Reading detailed parameter files before model selection is stable.
+- Emitting a full `Parameter Card` before the work has even reached simulation setup.
 - Forgetting to say what the minimal model does not explain, causing scope creep from the start.

@@ -24,7 +24,57 @@ Do not use this skill to decide the underlying mechanisms from scratch or to bui
 3. Identify `Degeneracy-Breakers` that distinguish competing mechanisms rather than merely refining fit quality.
 4. Add `dynamic diagnostics` such as FRAP, MSD, turnover, or recovery behavior when static observables are insufficient.
 5. Recommend `In Silico Perturbations` that remove or weaken the suspected mechanism and predict a measurable response.
-6. State interpretation risks when the current observable set still cannot resolve degeneracy.
+6. Use `one multiple-choice question per message` when one unresolved measurement choice still blocks the plan.
+7. State interpretation risks when the current observable set still cannot resolve degeneracy.
+8. Treat a coherent output package as a `validation-plan end node` unless explicit simulation framing is the active task.
+
+## Checklist
+- Name the `Fitting Observables` explicitly before proposing validation.
+- Keep `Orthogonal Validation` in a different observable family.
+- Identify the one or two highest-value `Degeneracy-Breakers`.
+- Add dynamic diagnostics when static evidence cannot separate mechanisms.
+- Use a multiple-choice format with `2-4` options plus `Other` when clarification is still active.
+- Do not handoff to simulation recommendation until circular reuse has been addressed.
+
+## Workflow State Machine
+### State 1: Fit / Validation Separation
+- Identify which observables fit parameters and which must remain independent.
+- Mark circular reuse risks immediately.
+- Exit gate: fitting and validation targets are separated or one clarifying question is clearly needed.
+
+### State 2: Degeneracy-Breaking Design
+- Add `Degeneracy-Breakers`, `dynamic diagnostics`, and `In Silico Perturbations`.
+- Focus on observables that can actually distinguish mechanisms.
+- Exit gate: the validation plan can falsify or support the current competing hypotheses.
+
+### State 3: Interpretation And Transition
+- State the remaining interpretation risks.
+- Decide whether the plan is ready for simulation framing.
+- Use a multiple-choice question when one blocked measurement choice can be narrowed cleanly.
+- Treat a coherent output package as a `validation-plan end node` when no explicit downstream handoff is requested.
+- Exit gate: the validation plan is coherent enough to route forward, the missing evidence is narrowed to one question, or the validation-plan end node is reached.
+
+## After This Stage
+- If validation is still circular, ask one question.
+- If the validation plan is coherent, handoff to `simulation-recommender`.
+- If the validation plan is complete, end the conversation and wait for a new explicit request.
+- If degeneracy coverage is still weak, stay in validation design and strengthen the plan before routing.
+
+## Self-Review
+- `stage completeness`: are fit targets, orthogonal validation, perturbations, and risks all present?
+- `circular reuse`: did any observable family silently serve as both fit and proof?
+- `degeneracy coverage`: do the chosen observables actually separate the competing mechanisms?
+- `dynamic adequacy`: were FRAP, MSD, or other time-resolved diagnostics added when needed?
+- `handoff readiness`: is the plan strong enough to support computational framing?
+- `question format`: did clarification stay in multiple-choice form unless forced otherwise?
+- `end-node discipline`: did the skill stop at the validation-plan end node when the stage was complete?
+
+When clarification is still active, use `one multiple-choice question per message`.
+
+Default question format:
+- Ask a multiple-choice question with `2-4` concrete options.
+- Include `Other` as the final option.
+- Only use open-ended clarification when the measurement ambiguity cannot be discretized honestly.
 
 ## Output Protocol
 Every response should use the following structure.

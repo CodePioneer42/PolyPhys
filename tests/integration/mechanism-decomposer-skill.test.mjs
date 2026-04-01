@@ -31,3 +31,28 @@ test("mechanism-decomposer skill exists and encodes degeneracy-first chromosome 
     assert.match(skillDoc, new RegExp(phrase.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
   }
 });
+
+test("mechanism-decomposer encodes checklist, state machine, after-stage actions, and self-review", async () => {
+  const skillDoc = await readFile(skillPath, "utf8");
+
+  assert.match(skillDoc, /## Checklist/i);
+  assert.match(skillDoc, /## Workflow State Machine/i);
+  assert.match(skillDoc, /State 1:/i);
+  assert.match(skillDoc, /Exit gate/i);
+  assert.match(skillDoc, /## After This Stage/i);
+  assert.match(skillDoc, /If ambiguity remains high, ask one question/i);
+  assert.match(skillDoc, /If competing hypotheses are coherent, handoff to `minimal-model-builder`/i);
+  assert.match(skillDoc, /## Self-Review/i);
+  assert.match(skillDoc, /unsupported leaps/i);
+  assert.match(skillDoc, /routing readiness/i);
+});
+
+test("mechanism-decomposer uses multiple-choice clarification and a decomposition end node", async () => {
+  const skillDoc = await readFile(skillPath, "utf8");
+
+  assert.match(skillDoc, /multiple-choice/i);
+  assert.match(skillDoc, /2-4/i);
+  assert.match(skillDoc, /Other/i);
+  assert.match(skillDoc, /decomposition end node/i);
+  assert.match(skillDoc, /If the decomposition is complete, end the conversation/i);
+});

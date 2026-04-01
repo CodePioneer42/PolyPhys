@@ -24,14 +24,10 @@ test("minimal-model-builder skill exists and encodes control-first chromosome mo
     "Experimental Perturbation",
     "Active Components Required",
     "Active Module Checklist",
-    "Parameter Card",
-    "Monomer Types",
-    "Bonded Potentials",
-    "Non-Bonded Potentials",
-    "Temperature",
-    "Damping Coefficient",
-    "Time Step",
-    "Markdown table or JSON",
+    "Data Source Check",
+    "Parameterization Readiness",
+    "data source",
+    "parameter files",
     "nonequilibrium",
     "purely repulsive",
     "control"
@@ -40,4 +36,37 @@ test("minimal-model-builder skill exists and encodes control-first chromosome mo
   for (const phrase of requiredPhrases) {
     assert.match(skillDoc, new RegExp(phrase.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
   }
+});
+
+test("minimal-model-builder defers detailed parameter files until simulation setup is needed", async () => {
+  const skillDoc = await readFile(skillPath, "utf8");
+
+  assert.match(skillDoc, /Do not read detailed parameter files during model-selection stage by default/i);
+  assert.match(skillDoc, /Only build a full Parameter Card when simulation setup is the active task/i);
+  assert.match(skillDoc, /identify the data source and whether downstream parameterization is needed/i);
+});
+
+test("minimal-model-builder encodes checklist, state machine, after-stage actions, and self-review", async () => {
+  const skillDoc = await readFile(skillPath, "utf8");
+
+  assert.match(skillDoc, /## Checklist/i);
+  assert.match(skillDoc, /## Workflow State Machine/i);
+  assert.match(skillDoc, /State 1:/i);
+  assert.match(skillDoc, /Exit gate/i);
+  assert.match(skillDoc, /## After This Stage/i);
+  assert.match(skillDoc, /If the model is still unstable, ask one question/i);
+  assert.match(skillDoc, /If the model is coherent, handoff to `observable-translator`/i);
+  assert.match(skillDoc, /## Self-Review/i);
+  assert.match(skillDoc, /skipped controls/i);
+  assert.match(skillDoc, /premature parameterization/i);
+});
+
+test("minimal-model-builder uses multiple-choice clarification and a model-design end node", async () => {
+  const skillDoc = await readFile(skillPath, "utf8");
+
+  assert.match(skillDoc, /multiple-choice/i);
+  assert.match(skillDoc, /2-4/i);
+  assert.match(skillDoc, /Other/i);
+  assert.match(skillDoc, /model-design end node/i);
+  assert.match(skillDoc, /If the model design is complete, end the conversation/i);
 });
